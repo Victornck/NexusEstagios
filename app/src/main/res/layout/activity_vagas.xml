@@ -483,20 +483,18 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <!-- INÍCIO -->
         <LinearLayout
+            android:id="@+id/nav_inicio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_home"
                 app:tint="#AAAAAA" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -504,31 +502,26 @@
                 android:text="Início"
                 android:textColor="#AAAAAA"
                 android:textSize="11sp" />
-
         </LinearLayout>
 
-        <!-- VAGAS ACTIVE -->
         <LinearLayout
+            android:id="@+id/nav_vagas"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/bg_chip_active"
                 android:gravity="center">
-
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/ic_briefcase"
                     app:tint="#FFFFFF" />
-
             </LinearLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -537,23 +530,20 @@
                 android:textColor="#FF6B00"
                 android:textSize="11sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
-        <!-- ATIVIDADES -->
         <LinearLayout
+            android:id="@+id/nav_atividades"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_check"
                 app:tint="#AAAAAA" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -561,23 +551,20 @@
                 android:text="Atividades"
                 android:textColor="#AAAAAA"
                 android:textSize="11sp" />
-
         </LinearLayout>
 
-        <!-- PERFIL -->
         <LinearLayout
+            android:id="@+id/nav_perfil"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_person"
                 app:tint="#AAAAAA" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -585,7 +572,6 @@
                 android:text="Perfil"
                 android:textColor="#AAAAAA"
                 android:textSize="11sp" />
-
         </LinearLayout>
 
     </LinearLayout>

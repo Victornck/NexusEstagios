@@ -343,20 +343,18 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <!-- HOME -->
         <LinearLayout
+            android:id="@+id/nav_inicio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_home"
                 app:tint="#AAAAAA" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -364,23 +362,20 @@
                 android:text="Início"
                 android:textColor="#AAAAAA"
                 android:textSize="11sp" />
-
         </LinearLayout>
 
-        <!-- VAGAS -->
         <LinearLayout
+            android:id="@+id/nav_vagas"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_briefcase"
                 app:tint="#AAAAAA" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -388,23 +383,20 @@
                 android:text="Vagas"
                 android:textColor="#AAAAAA"
                 android:textSize="11sp" />
-
         </LinearLayout>
 
-        <!-- ATIVIDADES -->
         <LinearLayout
+            android:id="@+id/nav_atividades"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_check_nav"
                 app:tint="#AAAAAA" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -412,31 +404,26 @@
                 android:text="Atividades"
                 android:textColor="#AAAAAA"
                 android:textSize="11sp" />
-
         </LinearLayout>
 
-        <!-- ACTIVE PROFILE -->
         <LinearLayout
+            android:id="@+id/nav_perfil"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:background="@drawable/bg_nav_active_filled"
                 android:gravity="center">
-
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/ic_person"
                     app:tint="#FFFFFF" />
-
             </LinearLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -445,7 +432,6 @@
                 android:textColor="#FF6B00"
                 android:textSize="11sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
     </LinearLayout>
