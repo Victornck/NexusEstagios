@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF6B00"
+    android:orientation="vertical">
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/btn_voltar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="← Voltar"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Nova vaga"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="32dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:elevation="4dp"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- TÍTULO -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Título da vaga"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+                <EditText
+                    android:id="@+id/et_titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="Ex: Estágio em Desenvolvimento"
+                    android:inputType="text"
+                    android:paddingHorizontal="14dp"
+                    android:textColor="#1A1A1A"
+                    android:textColorHint="#BBBBBB"
+                    android:textSize="15sp" />
+
+                <!-- LOCAL -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Localização"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+                <EditText
+                    android:id="@+id/et_local"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="Ex: São Paulo, SP"
+                    android:inputType="text"
+                    android:paddingHorizontal="14dp"
+                    android:textColor="#1A1A1A"
+                    android:textColorHint="#BBBBBB"
+                    android:textSize="15sp" />
+
+                <!-- MODALIDADE -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Modalidade"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+                <EditText
+                    android:id="@+id/et_modalidade"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="Ex: Presencial, Remoto ou Híbrido"
+                    android:inputType="text"
+                    android:paddingHorizontal="14dp"
+                    android:textColor="#1A1A1A"
+                    android:textColorHint="#BBBBBB"
+                    android:textSize="15sp" />
+
+                <!-- CARGA HORÁRIA -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Carga horária"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+                <EditText
+                    android:id="@+id/et_carga"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_input"
+                    android:hint="Ex: 30h/sem"
+                    android:inputType="text"
+                    android:paddingHorizontal="14dp"
+                    android:textColor="#1A1A1A"
+                    android:textColorHint="#BBBBBB"
+                    android:textSize="15sp" />
+
+                <!-- DESCRIÇÃO -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Descrição da vaga"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+                <EditText
+                    android:id="@+id/et_descricao"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/bg_input"
+                    android:gravity="top"
+                    android:hint="Descreva os requisitos e responsabilidades..."
+                    android:inputType="textMultiLine"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="12dp"
+                    android:textColor="#1A1A1A"
+                    android:textColorHint="#BBBBBB"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <!-- BOTÃO PUBLICAR -->
+            <TextView
+                android:id="@+id/btn_publicar"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_card"
+                android:gravity="center"
+                android:text="Publicar vaga"
+                android:textColor="#FF6B00"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
