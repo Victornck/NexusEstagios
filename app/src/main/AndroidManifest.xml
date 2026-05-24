@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -13,21 +12,27 @@
         android:theme="@style/Theme.EstagioApp">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
-        <activity android:name=".VagasActivity" />
-        <activity android:name=".AtividadesActivity" />
-        <activity android:name=".PerfilActivity" />
-        <activity android:name=".EditarPerfilActivity" />
+        <activity android:name=".MainActivity" android:launchMode="singleTop" />
+        <activity android:name=".VagasActivity" android:launchMode="singleTop" />
+        <activity android:name=".AtividadesActivity" android:launchMode="singleTop" />
+        <activity android:name=".PerfilActivity" android:launchMode="singleTop" />
         <activity android:name=".CurriculoActivity" />
-
-
+        <activity android:name=".EditarPerfilActivity" />
+        <activity android:name=".SupervisorActivity" />
+        <activity android:name=".EmpresaActivity" />
+        <activity android:name=".CadastroActivity" />
+        <activity android:name=".NovaVagaActivity" />
 
     </application>
 

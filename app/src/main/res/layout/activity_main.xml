@@ -41,6 +41,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tv_nome_usuario"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Lucas Almeida"
@@ -55,9 +56,10 @@
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/bg_stat_card"
                     android:padding="10dp"
-                    android:src="@android:drawable/ic_dialog_info" />
+                    android:src="@drawable/ic_notification" />
 
                 <TextView
+                    android:id="@+id/tv_letra_usuario"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:background="@drawable/bg_button_orange"
@@ -81,7 +83,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@android:drawable/ic_menu_search" />
+                    android:src="@drawable/ic_search_custom" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -97,7 +99,7 @@
                     android:layout_height="42dp"
                     android:background="@drawable/bg_button_orange"
                     android:padding="10dp"
-                    android:src="@android:drawable/ic_menu_sort_by_size" />
+                    android:src="@drawable/ic_filter" />
             </LinearLayout>
 
             <!-- PROGRESS CARD -->

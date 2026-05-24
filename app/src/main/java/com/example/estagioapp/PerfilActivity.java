@@ -2,56 +2,159 @@ package com.example.estagioapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.activity.OnBackPressedCallback;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PerfilActivity extends AppCompatActivity {
+
+    private TextView tvAvatar;
+    private TextView tvNome;
+    private TextView tvCurso;
+    private TextView tvEstagio;
+    private TextView tvCurriculos;
+    private TextView tvEmpresa;
+    private TextView tvSupervisor;
+
+    private TextView btnEditar;
+    private TextView btnSair;
+
+    private LinearLayout navInicio;
+    private LinearLayout navVagas;
+    private LinearLayout navAtividades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        findViewById(R.id.btn_editar).setOnClickListener(v ->
-                startActivity(new Intent(this, EditarPerfilActivity.class)));
+        // ───── IDS ─────
 
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                NavHelper.navigate(PerfilActivity.this, MainActivity.class);
-            }
+        tvAvatar = findViewById(R.id.tv_avatar);
+        tvNome = findViewById(R.id.tv_nome);
+        tvCurso = findViewById(R.id.tv_curso);
+        tvEstagio = findViewById(R.id.tv_estagio);
+        tvCurriculos = findViewById(R.id.tv_curriculos);
+        tvEmpresa = findViewById(R.id.tv_empresa);
+        tvSupervisor = findViewById(R.id.tv_supervisor);
+
+        btnEditar = findViewById(R.id.btn_editar);
+        btnSair = findViewById(R.id.btn_sair_perfil);
+
+        navInicio = findViewById(R.id.nav_inicio);
+        navVagas = findViewById(R.id.nav_vagas);
+        navAtividades = findViewById(R.id.nav_atividades);
+
+        // ───── CARREGAR DADOS ─────
+
+        carregarDados();
+
+        // ───── EDITAR PERFIL ─────
+
+        btnEditar.setOnClickListener(v -> {
+
+            Intent intent =
+                    new Intent(this, EditarPerfilActivity.class);
+
+            startActivity(intent);
         });
 
-        findViewById(R.id.nav_inicio).setOnClickListener(v ->
-                NavHelper.navigate(this, MainActivity.class));
-        findViewById(R.id.nav_vagas).setOnClickListener(v ->
-                NavHelper.navigate(this, VagasActivity.class));
-        findViewById(R.id.nav_atividades).setOnClickListener(v ->
-                NavHelper.navigate(this, AtividadesActivity.class));
-        findViewById(R.id.nav_perfil).setOnClickListener(v -> {});
+        // ───── SAIR DA CONTA ─────
+
+        btnSair.setOnClickListener(v -> {
+
+            AppData.setEmailLogado(this, "");
+
+            Intent intent =
+                    new Intent(this, LoginActivity.class);
+
+            intent.setFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK
+            );
+
+            startActivity(intent);
+            finish();
+        });
+
+        // ───── NAVEGAÇÃO ─────
+
+        navInicio.setOnClickListener(v -> {
+            startActivity(
+                    new Intent(this, MainActivity.class)
+            );
+        });
+
+        navVagas.setOnClickListener(v -> {
+            startActivity(
+                    new Intent(this, VagasActivity.class)
+            );
+        });
+
+        navAtividades.setOnClickListener(v -> {
+            startActivity(
+                    new Intent(this, AtividadesActivity.class)
+            );
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Atualiza quando voltar da edição
         carregarDados();
     }
 
-    private void carregarDados() {
-        String nome = AppData.getNome(this);
-        String[] partes = nome.split(" ");
-        String iniciais = partes.length >= 2
-                ? String.valueOf(partes[0].charAt(0)) + partes[1].charAt(0)
-                : String.valueOf(partes[0].charAt(0));
+    // ───── CARREGAR DADOS DO APPDATA ─────
 
-        ((TextView) findViewById(R.id.tv_avatar)).setText(iniciais.toUpperCase());
-        ((TextView) findViewById(R.id.tv_nome)).setText(nome);
-        ((TextView) findViewById(R.id.tv_curso)).setText(AppData.getCurso(this));
-        ((TextView) findViewById(R.id.tv_estagio)).setText(AppData.getEstagio(this));
-        ((TextView) findViewById(R.id.tv_empresa)).setText(AppData.getEmpresa(this));
-        ((TextView) findViewById(R.id.tv_supervisor)).setText(AppData.getSupervisor(this));
-        ((TextView) findViewById(R.id.tv_curriculos)).setText(
-                AppData.getCurriculosCount(this) + " versões salvas");
+    private void carregarDados() {
+
+        String nome = AppData.getNome(this);
+        String curso = AppData.getCurso(this);
+        String estagio = AppData.getEstagio(this);
+        String empresa = AppData.getEmpresa(this);
+        String supervisor = AppData.getSupervisor(this);
+
+        int curriculos =
+                AppData.getCurriculosCount(this);
+
+        // TEXTOS
+
+        tvNome.setText(nome);
+        tvCurso.setText(curso);
+        tvEstagio.setText(estagio);
+        tvEmpresa.setText(empresa);
+        tvSupervisor.setText(supervisor);
+
+        tvCurriculos.setText(
+                curriculos + " versões salvas"
+        );
+
+        // AVATAR
+
+        if (nome != null && !nome.isEmpty()) {
+
+            String[] partes = nome.split(" ");
+
+            String iniciais = "";
+
+            if (partes.length >= 2) {
+
+                iniciais =
+                        partes[0].substring(0,1) +
+                                partes[1].substring(0,1);
+
+            } else {
+
+                iniciais =
+                        nome.substring(0,1);
+            }
+
+            tvAvatar.setText(
+                    iniciais.toUpperCase()
+            );
+        }
     }
 }
