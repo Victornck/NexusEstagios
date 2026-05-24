@@ -24,6 +24,8 @@
         <activity android:name=".VagasActivity" />
         <activity android:name=".AtividadesActivity" />
         <activity android:name=".PerfilActivity" />
+        <activity android:name=".EditarPerfilActivity" />
+
 
     </application>
 

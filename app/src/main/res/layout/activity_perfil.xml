@@ -7,15 +7,37 @@
     android:orientation="vertical">
 
     <!-- HEADER -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Meu perfil"
-        android:textColor="#1A1A1A"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Meu perfil"
+            android:textColor="#1A1A1A"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_editar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_orange"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="8dp"
+            android:text="Editar"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <!-- PROFILE CARD -->
     <LinearLayout
@@ -37,6 +59,7 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/tv_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LA"
@@ -54,6 +77,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_nome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lucas Almeida"
@@ -62,6 +86,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_curso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -70,6 +95,7 @@
                 android:textSize="13sp" />
 
             <TextView
+                android:id="@+id/tv_estagio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -105,13 +131,11 @@
                 android:layout_height="44dp"
                 android:background="@drawable/bg_menu_icon"
                 android:gravity="center">
-
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/ic_document"
                     app:tint="#FF6B00" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -120,7 +144,6 @@
                 android:layout_marginStart="14dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -128,15 +151,14 @@
                     android:textColor="#1A1A1A"
                     android:textSize="15sp"
                     android:textStyle="bold" />
-
                 <TextView
+                    android:id="@+id/tv_curriculos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="3 versões salvas"
                     android:textColor="#888888"
                     android:textSize="13sp" />
-
             </LinearLayout>
 
             <TextView
@@ -145,7 +167,6 @@
                 android:text="›"
                 android:textColor="#CCCCCC"
                 android:textSize="22sp" />
-
         </LinearLayout>
 
         <!-- ITEM 2 -->
@@ -165,13 +186,11 @@
                 android:layout_height="44dp"
                 android:background="@drawable/bg_menu_icon"
                 android:gravity="center">
-
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/ic_briefcase"
                     app:tint="#FF6B00" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -180,7 +199,6 @@
                 android:layout_marginStart="14dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -188,15 +206,14 @@
                     android:textColor="#1A1A1A"
                     android:textSize="15sp"
                     android:textStyle="bold" />
-
                 <TextView
+                    android:id="@+id/tv_empresa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Nova Tech · Front-end"
                     android:textColor="#888888"
                     android:textSize="13sp" />
-
             </LinearLayout>
 
             <TextView
@@ -205,7 +222,6 @@
                 android:text="›"
                 android:textColor="#CCCCCC"
                 android:textSize="22sp" />
-
         </LinearLayout>
 
         <!-- ITEM 3 -->
@@ -225,13 +241,11 @@
                 android:layout_height="44dp"
                 android:background="@drawable/bg_menu_icon"
                 android:gravity="center">
-
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/ic_person"
                     app:tint="#FF6B00" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -240,7 +254,6 @@
                 android:layout_marginStart="14dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -248,15 +261,14 @@
                     android:textColor="#1A1A1A"
                     android:textSize="15sp"
                     android:textStyle="bold" />
-
                 <TextView
+                    android:id="@+id/tv_supervisor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Profa. Marina Costa"
                     android:textColor="#888888"
                     android:textSize="13sp" />
-
             </LinearLayout>
 
             <TextView
@@ -265,7 +277,6 @@
                 android:text="›"
                 android:textColor="#CCCCCC"
                 android:textSize="22sp" />
-
         </LinearLayout>
 
         <!-- ITEM 4 -->
@@ -285,13 +296,11 @@
                 android:layout_height="44dp"
                 android:background="@drawable/bg_menu_icon"
                 android:gravity="center">
-
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/ic_bell"
                     app:tint="#FF6B00" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -300,7 +309,6 @@
                 android:layout_marginStart="14dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -308,7 +316,6 @@
                     android:textColor="#1A1A1A"
                     android:textSize="15sp"
                     android:textStyle="bold" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -316,7 +323,6 @@
                     android:text="Ativadas"
                     android:textColor="#888888"
                     android:textSize="13sp" />
-
             </LinearLayout>
 
             <TextView
@@ -325,7 +331,6 @@
                 android:text="›"
                 android:textColor="#CCCCCC"
                 android:textSize="22sp" />
-
         </LinearLayout>
 
     </LinearLayout>

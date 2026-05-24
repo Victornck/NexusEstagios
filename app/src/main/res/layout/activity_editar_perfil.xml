@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:orientation="vertical">
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/btn_cancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:textColor="#888888"
+            android:textSize="15sp"
+            android:padding="8dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Editar perfil"
+            android:textColor="#1A1A1A"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_salvar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_orange"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="Salvar"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- NOME -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Nome completo"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+            <EditText
+                android:id="@+id/et_nome"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_card"
+                android:inputType="textPersonName"
+                android:paddingHorizontal="14dp"
+                android:textColor="#1A1A1A"
+                android:textSize="15sp" />
+
+            <!-- CURSO -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Curso"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+            <EditText
+                android:id="@+id/et_curso"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_card"
+                android:inputType="text"
+                android:paddingHorizontal="14dp"
+                android:textColor="#1A1A1A"
+                android:textSize="15sp" />
+
+            <!-- ESTÁGIO -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Status do estágio"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+            <EditText
+                android:id="@+id/et_estagio"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_card"
+                android:inputType="text"
+                android:paddingHorizontal="14dp"
+                android:textColor="#1A1A1A"
+                android:textSize="15sp" />
+
+            <!-- EMPRESA -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Empresa atual"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+            <EditText
+                android:id="@+id/et_empresa"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_card"
+                android:inputType="text"
+                android:paddingHorizontal="14dp"
+                android:textColor="#1A1A1A"
+                android:textSize="15sp" />
+
+            <!-- SUPERVISOR -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Supervisor"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+            <EditText
+                android:id="@+id/et_supervisor"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_card"
+                android:inputType="text"
+                android:paddingHorizontal="14dp"
+                android:textColor="#1A1A1A"
+                android:textSize="15sp" />
+
+            <!-- HORAS CONCLUÍDAS -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Horas concluídas"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+            <EditText
+                android:id="@+id/et_horas"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_card"
+                android:inputType="number"
+                android:paddingHorizontal="14dp"
+                android:textColor="#1A1A1A"
+                android:textSize="15sp" />
+
+            <!-- HORAS TOTAL -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Carga horária total"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+            <EditText
+                android:id="@+id/et_horas_total"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_card"
+                android:inputType="number"
+                android:paddingHorizontal="14dp"
+                android:textColor="#1A1A1A"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
