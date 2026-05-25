@@ -33,6 +33,8 @@
         <activity android:name=".EmpresaActivity" />
         <activity android:name=".CadastroActivity" />
         <activity android:name=".NovaVagaActivity" />
+        <activity android:name=".SupervisorAlunoAtividadesActivity"/>
+        <activity android:name=".DetalhesAlunoActivity"/>
 
     </application>
 

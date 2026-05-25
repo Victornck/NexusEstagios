@@ -147,13 +147,13 @@
             <EditText
                 android:id="@+id/et_supervisor"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/bg_card"
-                android:inputType="text"
-                android:paddingHorizontal="14dp"
-                android:textColor="#1A1A1A"
-                android:textSize="15sp" />
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:focusable="false"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:textColor="#999999"
+                android:hint="Supervisor vinculado automaticamente"/>
 
             <!-- HORAS CONCLUÍDAS -->
             <TextView

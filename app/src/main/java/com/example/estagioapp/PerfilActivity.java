@@ -64,10 +64,8 @@ public class PerfilActivity extends AppCompatActivity {
 
         btnSair.setOnClickListener(v -> {
 
-            // Limpa sessão local
             AppData.setEmailLogado(this, "");
 
-            // Encerra sessão no Firebase Auth (corrige o redirecionamento automático)
             FirebaseHelper.getAuth().signOut();
 
             Intent intent =
@@ -79,6 +77,7 @@ public class PerfilActivity extends AppCompatActivity {
             );
 
             startActivity(intent);
+
             finish();
         });
 
@@ -98,19 +97,24 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Atualiza quando voltar da edição
         carregarDados();
     }
 
-    // ───── CARREGAR DADOS DO APPDATA ─────
+    // ───── CARREGAR DADOS ─────
 
     private void carregarDados() {
 
-        String nome = AppData.getNome(this);
-        String curso = AppData.getCurso(this);
-        String estagio = AppData.getEstagio(this);
-        String empresa = AppData.getEmpresa(this);
-        String supervisor = AppData.getSupervisor(this);
+        String nome =
+                AppData.getNome(this);
+
+        String curso =
+                AppData.getCurso(this);
+
+        String estagio =
+                AppData.getEstagio(this);
+
+        String empresa =
+                AppData.getEmpresa(this);
 
         int curriculos =
                 AppData.getCurriculosCount(this);
@@ -118,33 +122,76 @@ public class PerfilActivity extends AppCompatActivity {
         // TEXTOS
 
         tvNome.setText(nome);
+
         tvCurso.setText(curso);
+
         tvEstagio.setText(estagio);
+
         tvEmpresa.setText(empresa);
-        tvSupervisor.setText(supervisor);
 
         String textoCurriculos;
+
         if (curriculos == 0) {
-            textoCurriculos = "Nenhum currículo salvo";
+
+            textoCurriculos =
+                    "Nenhum currículo salvo";
+
         } else if (curriculos == 1) {
-            textoCurriculos = "1 versão salva";
+
+            textoCurriculos =
+                    "1 versão salva";
+
         } else {
-            textoCurriculos = curriculos + " versões salvas";
+
+            textoCurriculos =
+                    curriculos + " versões salvas";
         }
+
         tvCurriculos.setText(textoCurriculos);
 
-        // AVATAR
+        // ───── SUPERVISOR ─────
+
+        String uid =
+                FirebaseHelper.getUidAtual();
+
+        if (uid != null) {
+
+            FirebaseHelper.refUsuarios()
+                    .child(uid)
+                    .get()
+                    .addOnSuccessListener(snapshot -> {
+
+                        String supervisorNome =
+                                snapshot.child("supervisorNome")
+                                        .getValue(String.class);
+
+                        if (supervisorNome == null
+                                || supervisorNome.isEmpty()) {
+
+                            supervisorNome =
+                                    "Não vinculado";
+                        }
+
+                        tvSupervisor.setText(
+                                supervisorNome
+                        );
+                    });
+        }
+
+        // ───── AVATAR ─────
 
         if (nome != null && !nome.isEmpty()) {
 
-            String[] partes = nome.split(" ");
+            String[] partes =
+                    nome.split(" ");
 
             String iniciais = "";
 
             if (partes.length >= 2) {
 
                 iniciais =
-                        partes[0].substring(0,1) +
+                        partes[0].substring(0,1)
+                                +
                                 partes[1].substring(0,1);
 
             } else {
