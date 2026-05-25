@@ -250,13 +250,52 @@ public class VagasActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT, dp(46));
         btnParams.topMargin = dp(14);
         btnCandidatura.setLayoutParams(btnParams);
-        btnCandidatura.setBackgroundResource(R.drawable.bg_button_orange);
-        btnCandidatura.setText("Enviar currículo");
-        btnCandidatura.setTextColor(0xFFFFFFFF);
         btnCandidatura.setAllCaps(false);
         btnCandidatura.setTypeface(null, android.graphics.Typeface.BOLD);
-        btnCandidatura.setOnClickListener(v -> abrirCandidatura(id, titulo, empresa));
         card.addView(btnCandidatura);
+
+        // ── NOVO: Verifica candidatura antes de configurar o botão ──
+        String uid = FirebaseHelper.getUidAtual();
+        if (uid != null && id != null) {
+            FirebaseHelper.refCandidaturas()
+                    .orderByChild("candidatoUid").equalTo(uid)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            boolean jaCandidatou = false;
+                            for (DataSnapshot c : snapshot.getChildren()) {
+                                String vagaId = c.child("vagaId").getValue(String.class);
+                                if (id.equals(vagaId)) { jaCandidatou = true; break; }
+                            }
+
+                            if (jaCandidatou) {
+                                btnCandidatura.setText("Candidatura enviada ✓");
+                                btnCandidatura.setBackgroundResource(R.drawable.bg_stat_card);
+                                btnCandidatura.setTextColor(0xFF7A7A7A);
+                                btnCandidatura.setEnabled(false);
+                            } else {
+                                btnCandidatura.setBackgroundResource(R.drawable.bg_button_orange);
+                                btnCandidatura.setText("Enviar currículo");
+                                btnCandidatura.setTextColor(0xFFFFFFFF);
+                                btnCandidatura.setOnClickListener(
+                                        v -> abrirCandidatura(id, titulo, empresa));
+                            }
+                        }
+                        @Override public void onCancelled(DatabaseError error) {
+                            btnCandidatura.setBackgroundResource(R.drawable.bg_button_orange);
+                            btnCandidatura.setText("Enviar currículo");
+                            btnCandidatura.setTextColor(0xFFFFFFFF);
+                            btnCandidatura.setOnClickListener(
+                                    v -> abrirCandidatura(id, titulo, empresa));
+                        }
+                    });
+        } else {
+            // fallback sem uid
+            btnCandidatura.setBackgroundResource(R.drawable.bg_button_orange);
+            btnCandidatura.setText("Enviar currículo");
+            btnCandidatura.setTextColor(0xFFFFFFFF);
+            btnCandidatura.setOnClickListener(v -> abrirCandidatura(id, titulo, empresa));
+        }
 
         containerVagas.addView(card);
     }

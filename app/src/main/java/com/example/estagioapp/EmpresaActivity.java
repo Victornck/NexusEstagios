@@ -188,15 +188,18 @@ public class EmpresaActivity extends AppCompatActivity {
 
     private void carregarCandidatos() {
         FirebaseHelper.refCandidaturas()
-                .orderByChild("empresaVaga")
+                .orderByChild("empresaUid")
+                .equalTo(empresaUid)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         containerCandidatos.removeAllViews();
                         containerCandidatos.addView(tvSemCandidatos);
 
-                        if (!snapshot.exists()) {
+                        if (!snapshot.exists() || snapshot.getChildrenCount() == 0) {
                             tvSemCandidatos.setVisibility(View.VISIBLE);
+                            ((TextView) findViewById(R.id.tv_total_candidatos)).setText("0");
+                            ((TextView) findViewById(R.id.tv_total_contratados)).setText("0");
                             return;
                         }
 
@@ -204,20 +207,11 @@ public class EmpresaActivity extends AppCompatActivity {
                         int aceitos = 0;
 
                         for (DataSnapshot cand : snapshot.getChildren()) {
-                            String empresaCand = cand.child("empresaVaga").getValue(String.class);
-                            String nomeEmpresaAtual = ((TextView) findViewById(
-                                    R.id.tv_nome_empresa)).getText().toString();
-
-                            if (empresaCand == null ||
-                                    !empresaCand.contains(nomeEmpresaAtual.split(" ")[0])) continue;
-
                             String candId    = cand.getKey();
                             String nome      = cand.child("nome").getValue(String.class);
                             String nomeVaga  = cand.child("nomeVaga").getValue(String.class);
                             String pretensao = cand.child("pretensao").getValue(String.class);
                             String status    = cand.child("status").getValue(String.class);
-
-                            // ── campos extras ──
                             String email     = cand.child("email").getValue(String.class);
                             String telefone  = cand.child("telefone").getValue(String.class);
                             String mensagem  = cand.child("mensagem").getValue(String.class);
@@ -234,7 +228,6 @@ public class EmpresaActivity extends AppCompatActivity {
                         }
 
                         tvSemCandidatos.setVisibility(total == 0 ? View.VISIBLE : View.GONE);
-
                         ((TextView) findViewById(R.id.tv_total_candidatos))
                                 .setText(String.valueOf(total));
                         ((TextView) findViewById(R.id.tv_total_contratados))
@@ -242,7 +235,10 @@ public class EmpresaActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError error) {}
+                    public void onCancelled(DatabaseError error) {
+                        tvSemCandidatos.setVisibility(View.VISIBLE);
+                        tvSemCandidatos.setText("Erro ao carregar candidatos.");
+                    }
                 });
     }
 

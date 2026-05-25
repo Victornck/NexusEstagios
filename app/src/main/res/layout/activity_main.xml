@@ -85,14 +85,20 @@
                     android:layout_height="20dp"
                     android:src="@drawable/ic_search_custom" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/et_busca"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:text="Buscar vagas, empresas..."
-                    android:textColor="#8E8E8E"
-                    android:textSize="14sp" />
+                    android:background="@null"
+                    android:hint="Buscar vagas, empresas..."
+                    android:textColorHint="#8E8E8E"
+                    android:textColor="#111111"
+                    android:textSize="14sp"
+                    android:inputType="text"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1" />
 
                 <ImageView
                     android:layout_width="42dp"
@@ -165,9 +171,10 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_stat_vagas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="124"
+                        android:text="—"
                         android:textColor="#111111"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -190,9 +197,10 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_stat_curriculos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3"
+                        android:text="—"
                         android:textColor="#111111"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -215,9 +223,10 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_stat_aprovadas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="12"
+                        android:text="—"
                         android:textColor="#111111"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -256,84 +265,14 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-            <!-- JOB CARD 1 -->
-            <LinearLayout
+            <!-- VAGAS RECOMENDADAS -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_vagas_recomendadas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:background="@drawable/bg_job_card"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nova Tech"
-                    android:textColor="#8B8B8B"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Estágio em Desenvolvimento"
-                    android:textColor="#111111"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="São Paulo, SP   •   Híbrido"
-                    android:textColor="#8A8A8A"
-                    android:textSize="12sp" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/bg_button_orange"
-                    android:text="Enviar currículo"
-                    android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- JOB CARD 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="24dp"
-                android:background="@drawable/bg_job_card"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Orange Studios"
-                    android:textColor="#8B8B8B"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Estágio em Design UX/UI"
-                    android:textColor="#111111"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Remoto   •   20h/semana"
-                    android:textColor="#8A8A8A"
-                    android:textSize="12sp" />
-            </LinearLayout>
+                android:nestedScrollingEnabled="false" />
 
         </LinearLayout>
     </ScrollView>
