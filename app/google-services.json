@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "578525770586",
+    "project_id": "estagioapp",
+    "storage_bucket": "estagioapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578525770586:android:a5b60bda54a70748b3f963",
+        "android_client_info": {
+          "package_name": "com.example.estagioapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxIh2HlYeFD-ZUaEN26G4-Axhd1Irs69w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
