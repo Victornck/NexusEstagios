@@ -119,6 +119,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/tv_progresso_percent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -128,6 +129,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_horas_progresso"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="408h de 600h concluídas"
@@ -135,6 +137,7 @@
                     android:textSize="13sp" />
 
                 <ProgressBar
+                    android:id="@+id/progress_bar"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="10dp"

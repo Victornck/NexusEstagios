@@ -31,16 +31,41 @@ public class EditarPerfilActivity extends AppCompatActivity {
 
         // Botão salvar
         findViewById(R.id.btn_salvar).setOnClickListener(v -> {
-            AppData.setNome(this,       etNome.getText().toString().trim());
-            AppData.setCurso(this,      etCurso.getText().toString().trim());
-            AppData.setEstagio(this,    etEstagio.getText().toString().trim());
-            AppData.setEmpresa(this,    etEmpresa.getText().toString().trim());
-            AppData.setSupervisor(this, etSupervisor.getText().toString().trim());
-            AppData.setHorasConcluidas(this, etHoras.getText().toString().trim());
-            AppData.setHorasTotal(this,      etHorasTotal.getText().toString().trim());
+
+            String nome       = etNome.getText().toString().trim();
+            String curso      = etCurso.getText().toString().trim();
+            String estagio    = etEstagio.getText().toString().trim();
+            String empresa    = etEmpresa.getText().toString().trim();
+            String supervisor = etSupervisor.getText().toString().trim();
+            String horas      = etHoras.getText().toString().trim();
+            String horasTotal = etHorasTotal.getText().toString().trim();
+
+            // Salva localmente (AppData)
+            AppData.setNome(this, nome);
+            AppData.setCurso(this, curso);
+            AppData.setEstagio(this, estagio);
+            AppData.setEmpresa(this, empresa);
+            AppData.setSupervisor(this, supervisor);
+            AppData.setHorasConcluidas(this, horas);
+            AppData.setHorasTotal(this, horasTotal);
+
+            // Salva no Firebase para manter consistência
+            String uid = FirebaseHelper.getUidAtual();
+            if (uid != null) {
+                java.util.Map<String, Object> updates = new java.util.HashMap<>();
+                updates.put("nome",             nome);
+                updates.put("curso",            curso);
+                updates.put("estagio",          estagio);
+                updates.put("empresa",          empresa);
+                updates.put("supervisorUid",    supervisor);
+                updates.put("horasConcluidas",  horas.isEmpty() ? 0 : Long.parseLong(horas));
+                updates.put("horasTotal",       horasTotal.isEmpty() ? 600 : Long.parseLong(horasTotal));
+
+                FirebaseHelper.refUsuarios().child(uid).updateChildren(updates);
+            }
 
             Toast.makeText(this, "Perfil atualizado!", Toast.LENGTH_SHORT).show();
-            finish(); // volta para o Perfil
+            finish();
         });
 
         // Botão cancelar

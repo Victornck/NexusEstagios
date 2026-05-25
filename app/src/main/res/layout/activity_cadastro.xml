@@ -209,7 +209,7 @@
                     android:layout_marginTop="6dp"
                     android:background="@drawable/bg_input"
                     android:hint="DD/MM/AAAA"
-                    android:inputType="date"
+                    android:inputType="number"
                     android:paddingHorizontal="14dp"
                     android:textColor="#1A1A1A"
                     android:textColorHint="#BBBBBB"

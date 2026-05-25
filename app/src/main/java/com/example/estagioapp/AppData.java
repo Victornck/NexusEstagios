@@ -38,7 +38,7 @@ public class AppData {
     }
 
     public static int getCurriculosCount(Context ctx) {
-        return getInt(ctx, "curriculos", 3);
+        return getInt(ctx, "curriculos", 0);
     }
 
     public static int getAtividadesConcluidas(Context ctx) {
@@ -78,6 +78,7 @@ public class AppData {
     public static boolean getCurriculoExperiencia(Context ctx) {
         return prefs(ctx).getBoolean("curriculo_experiencia", false);
     }
+
 
     // ───────────────── SETTERS ─────────────────
 

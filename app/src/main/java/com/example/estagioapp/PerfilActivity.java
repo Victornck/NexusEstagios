@@ -64,7 +64,11 @@ public class PerfilActivity extends AppCompatActivity {
 
         btnSair.setOnClickListener(v -> {
 
+            // Limpa sessão local
             AppData.setEmailLogado(this, "");
+
+            // Encerra sessão no Firebase Auth (corrige o redirecionamento automático)
+            FirebaseHelper.getAuth().signOut();
 
             Intent intent =
                     new Intent(this, LoginActivity.class);
@@ -80,23 +84,14 @@ public class PerfilActivity extends AppCompatActivity {
 
         // ───── NAVEGAÇÃO ─────
 
-        navInicio.setOnClickListener(v -> {
-            startActivity(
-                    new Intent(this, MainActivity.class)
-            );
-        });
+        navInicio.setOnClickListener(v ->
+                NavHelper.navigate(this, MainActivity.class));
 
-        navVagas.setOnClickListener(v -> {
-            startActivity(
-                    new Intent(this, VagasActivity.class)
-            );
-        });
+        navVagas.setOnClickListener(v ->
+                NavHelper.navigate(this, VagasActivity.class));
 
-        navAtividades.setOnClickListener(v -> {
-            startActivity(
-                    new Intent(this, AtividadesActivity.class)
-            );
-        });
+        navAtividades.setOnClickListener(v ->
+                NavHelper.navigate(this, AtividadesActivity.class));
     }
 
     @Override
@@ -128,9 +123,15 @@ public class PerfilActivity extends AppCompatActivity {
         tvEmpresa.setText(empresa);
         tvSupervisor.setText(supervisor);
 
-        tvCurriculos.setText(
-                curriculos + " versões salvas"
-        );
+        String textoCurriculos;
+        if (curriculos == 0) {
+            textoCurriculos = "Nenhum currículo salvo";
+        } else if (curriculos == 1) {
+            textoCurriculos = "1 versão salva";
+        } else {
+            textoCurriculos = curriculos + " versões salvas";
+        }
+        tvCurriculos.setText(textoCurriculos);
 
         // AVATAR
 

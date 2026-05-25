@@ -3,11 +3,15 @@ package com.example.estagioapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -16,24 +20,27 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Se já está logado, redireciona direto
+        if (FirebaseHelper.estaLogado()) {
+            redirecionarPorPerfil();
+            return;
+        }
+
         setContentView(R.layout.activity_login);
 
         LinearLayout btnAluno      = findViewById(R.id.btn_perfil_aluno);
         LinearLayout btnSupervisor = findViewById(R.id.btn_perfil_supervisor);
         LinearLayout btnEmpresa    = findViewById(R.id.btn_perfil_empresa);
+        TextView txtAluno          = findViewById(R.id.txt_perfil_aluno);
+        TextView txtSupervisor     = findViewById(R.id.txt_perfil_supervisor);
+        TextView txtEmpresa        = findViewById(R.id.txt_perfil_empresa);
 
-        TextView txtAluno      = findViewById(R.id.txt_perfil_aluno);
-        TextView txtSupervisor = findViewById(R.id.txt_perfil_supervisor);
-        TextView txtEmpresa    = findViewById(R.id.txt_perfil_empresa);
-
-        // Seleção de perfil
         btnAluno.setOnClickListener(v -> {
             perfilSelecionado = "aluno";
-
             btnAluno.setBackgroundResource(R.drawable.bg_perfil_selected);
             btnSupervisor.setBackgroundResource(R.drawable.bg_perfil_unselected);
             btnEmpresa.setBackgroundResource(R.drawable.bg_perfil_unselected);
-
             txtAluno.setTextColor(0xFFFF6B00);
             txtSupervisor.setTextColor(0xFFFFD4B3);
             txtEmpresa.setTextColor(0xFFFFD4B3);
@@ -41,11 +48,9 @@ public class LoginActivity extends AppCompatActivity {
 
         btnSupervisor.setOnClickListener(v -> {
             perfilSelecionado = "supervisor";
-
             btnSupervisor.setBackgroundResource(R.drawable.bg_perfil_selected);
             btnAluno.setBackgroundResource(R.drawable.bg_perfil_unselected);
             btnEmpresa.setBackgroundResource(R.drawable.bg_perfil_unselected);
-
             txtSupervisor.setTextColor(0xFFFF6B00);
             txtAluno.setTextColor(0xFFFFD4B3);
             txtEmpresa.setTextColor(0xFFFFD4B3);
@@ -53,76 +58,103 @@ public class LoginActivity extends AppCompatActivity {
 
         btnEmpresa.setOnClickListener(v -> {
             perfilSelecionado = "empresa";
-
             btnEmpresa.setBackgroundResource(R.drawable.bg_perfil_selected);
             btnAluno.setBackgroundResource(R.drawable.bg_perfil_unselected);
             btnSupervisor.setBackgroundResource(R.drawable.bg_perfil_unselected);
-
             txtEmpresa.setTextColor(0xFFFF6B00);
             txtAluno.setTextColor(0xFFFFD4B3);
             txtSupervisor.setTextColor(0xFFFFD4B3);
         });
 
-        // Entrar
         findViewById(R.id.btn_entrar).setOnClickListener(v -> {
-
             EditText etEmail = findViewById(R.id.et_email);
             EditText etSenha = findViewById(R.id.et_senha);
 
             String email = etEmail.getText().toString().trim();
             String senha = etSenha.getText().toString().trim();
 
-            // Validação do e-mail
-            if (email.isEmpty()) {
-                etEmail.setError("Informe seu e-mail");
-                etEmail.requestFocus();
-                return;
-            }
+            if (email.isEmpty()) { etEmail.setError("Informe seu e-mail"); etEmail.requestFocus(); return; }
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) { etEmail.setError("E-mail inválido"); etEmail.requestFocus(); return; }
+            if (senha.isEmpty()) { etSenha.setError("Informe sua senha"); etSenha.requestFocus(); return; }
+            if (senha.length() < 6) { etSenha.setError("Mínimo 6 caracteres"); etSenha.requestFocus(); return; }
 
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                etEmail.setError("E-mail inválido");
-                etEmail.requestFocus();
-                return;
-            }
+            // Desabilita botão durante login
+            findViewById(R.id.btn_entrar).setEnabled(false);
+            ((TextView) findViewById(R.id.btn_entrar)).setText("Entrando...");
 
-            // Validação da senha
-            if (senha.isEmpty()) {
-                etSenha.setError("Informe sua senha");
-                etSenha.requestFocus();
-                return;
-            }
+            // Login real no Firebase
+            FirebaseHelper.getAuth()
+                    .signInWithEmailAndPassword(email, senha)
+                    .addOnSuccessListener(authResult -> {
+                        String uid = FirebaseHelper.getUidAtual();
 
-            if (senha.length() < 6) {
-                etSenha.setError("A senha deve ter no mínimo 6 caracteres");
-                etSenha.requestFocus();
-                return;
-            }
+                        // Busca perfil do usuário no banco
+                        FirebaseHelper.refUsuarios().child(uid)
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshot) {
+                                        String perfilBanco = snapshot.child("perfil").getValue(String.class);
+                                        if (perfilBanco != null) {
+                                            perfilSelecionado = perfilBanco;
+                                        }
+                                        redirecionarPorPerfil();
+                                        finish();
+                                    }
 
-            // Salva dados do usuário
-            AppData.setPerfilLogado(this, perfilSelecionado);
-            AppData.setEmailLogado(this, email);
-
-            // Redireciona conforme perfil
-            switch (perfilSelecionado) {
-
-                case "supervisor":
-                    startActivity(new Intent(this, SupervisorActivity.class));
-                    break;
-
-                case "empresa":
-                    startActivity(new Intent(this, EmpresaActivity.class));
-                    break;
-
-                default:
-                    startActivity(new Intent(this, MainActivity.class));
-                    break;
-            }
-
-            finish();
+                                    @Override
+                                    public void onCancelled(DatabaseError error) {
+                                        redirecionarPorPerfil();
+                                        finish();
+                                    }
+                                });
+                    })
+                    .addOnFailureListener(e -> {
+                        findViewById(R.id.btn_entrar).setEnabled(true);
+                        ((TextView) findViewById(R.id.btn_entrar)).setText("Entrar");
+                        String msg = e.getMessage();
+                        if (msg != null && msg.contains("password")) {
+                            Toast.makeText(this, "Senha incorreta.", Toast.LENGTH_SHORT).show();
+                        } else if (msg != null && msg.contains("no user")) {
+                            Toast.makeText(this, "Usuário não encontrado.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Erro ao entrar. Tente novamente.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
 
-        // Cadastro
         findViewById(R.id.btn_cadastrar).setOnClickListener(v ->
                 startActivity(new Intent(this, CadastroActivity.class)));
+    }
+
+    private void redirecionarPorPerfil() {
+        String uid = FirebaseHelper.getUidAtual();
+        if (uid == null) return;
+
+        FirebaseHelper.refUsuarios().child(uid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        String perfil = snapshot.child("perfil").getValue(String.class);
+                        if (perfil == null) perfil = "aluno";
+                        switch (perfil) {
+                            case "supervisor":
+                                startActivity(new Intent(LoginActivity.this, SupervisorActivity.class));
+                                break;
+                            case "empresa":
+                                startActivity(new Intent(LoginActivity.this, EmpresaActivity.class));
+                                break;
+                            default:
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                break;
+                        }
+                        finish();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    }
+                });
     }
 }
