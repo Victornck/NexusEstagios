@@ -1,94 +1,261 @@
 package com.example.estagioapp;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DatabaseReference;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class NovaVagaActivity extends AppCompatActivity {
 
+    private Spinner spinnerArea;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_nova_vaga);
 
-        findViewById(R.id.btn_voltar).setOnClickListener(v -> finish());
+        // SPINNER ÁREA
 
-        findViewById(R.id.btn_publicar).setOnClickListener(v -> {
+        spinnerArea =
+                findViewById(R.id.spinner_area);
 
-            EditText etTitulo     = findViewById(R.id.et_titulo);
-            EditText etLocal      = findViewById(R.id.et_local);
-            EditText etModalidade = findViewById(R.id.et_modalidade);
-            EditText etCarga      = findViewById(R.id.et_carga);
-            EditText etDescricao  = findViewById(R.id.et_descricao);
+        String[] areas = {
+                "Tech",
+                "Design",
+                "Marketing",
+                "Finanças"
+        };
 
-            String titulo     = etTitulo.getText().toString().trim();
-            String local      = etLocal.getText().toString().trim();
-            String modalidade = etModalidade.getText().toString().trim();
-            String carga      = etCarga.getText().toString().trim();
-            String descricao  = etDescricao.getText().toString().trim();
+        ArrayAdapter<String> adapterArea =
+                new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_spinner_dropdown_item,
+                        areas
+                );
 
-            if (titulo.isEmpty())     { etTitulo.setError("Obrigatório"); etTitulo.requestFocus(); return; }
-            if (local.isEmpty())      { etLocal.setError("Obrigatório"); etLocal.requestFocus(); return; }
-            if (modalidade.isEmpty()) { etModalidade.setError("Obrigatório"); etModalidade.requestFocus(); return; }
-            if (carga.isEmpty())      { etCarga.setError("Obrigatório"); etCarga.requestFocus(); return; }
-            if (descricao.isEmpty())  { etDescricao.setError("Obrigatório"); etDescricao.requestFocus(); return; }
+        spinnerArea.setAdapter(adapterArea);
 
-            // Desabilita botão
-            findViewById(R.id.btn_publicar).setEnabled(false);
-            ((TextView) findViewById(R.id.btn_publicar)).setText("Publicando...");
+        // VOLTAR
 
-            // Busca dados da empresa no banco
-            String uid = FirebaseHelper.getUidAtual();
-            FirebaseHelper.refUsuarios().child(uid)
-                    .get()
-                    .addOnSuccessListener(snapshot -> {
+        findViewById(R.id.btn_voltar)
+                .setOnClickListener(v -> finish());
 
-                        String nomeEmpresa  = snapshot.child("razaoSocial").getValue(String.class);
-                        String emailEmpresa = snapshot.child("email").getValue(String.class);
-                        if (nomeEmpresa == null) nomeEmpresa = snapshot.child("nome").getValue(String.class);
+        // PUBLICAR
 
-                        // Monta objeto da vaga
-                        Map<String, Object> vaga = new HashMap<>();
-                        vaga.put("titulo", titulo);
-                        vaga.put("local", local);
-                        vaga.put("modalidade", modalidade);
-                        vaga.put("carga", carga);
-                        vaga.put("descricao", descricao);
-                        vaga.put("empresa", nomeEmpresa);
-                        vaga.put("empresaUid", uid);
-                        vaga.put("status", "ativa");
-                        vaga.put("candidatos", 0);
-                        vaga.put("timestamp", System.currentTimeMillis());
+        findViewById(R.id.btn_publicar)
+                .setOnClickListener(v -> {
 
-                        // Salva no Firebase com ID único gerado automaticamente
-                        DatabaseReference novaVaga = FirebaseHelper.refVagas().push();
-                        novaVaga.setValue(vaga)
-                                .addOnSuccessListener(unused -> {
-                                    Toast.makeText(this,
-                                            "Vaga publicada com sucesso!",
-                                            Toast.LENGTH_SHORT).show();
-                                    finish();
-                                })
-                                .addOnFailureListener(e -> {
-                                    findViewById(R.id.btn_publicar).setEnabled(true);
-                                    ((TextView) findViewById(R.id.btn_publicar)).setText("Publicar vaga");
-                                    Toast.makeText(this,
-                                            "Erro ao publicar: " + e.getMessage(),
-                                            Toast.LENGTH_LONG).show();
-                                });
-                    })
-                    .addOnFailureListener(e -> {
-                        findViewById(R.id.btn_publicar).setEnabled(true);
-                        ((TextView) findViewById(R.id.btn_publicar)).setText("Publicar vaga");
-                        Toast.makeText(this,
-                                "Erro ao buscar dados da empresa.",
-                                Toast.LENGTH_SHORT).show();
-                    });
-        });
+                    EditText etTitulo =
+                            findViewById(R.id.et_titulo);
+
+                    EditText etLocal =
+                            findViewById(R.id.et_local);
+
+                    EditText etModalidade =
+                            findViewById(R.id.et_modalidade);
+
+                    EditText etCarga =
+                            findViewById(R.id.et_carga);
+
+                    EditText etDescricao =
+                            findViewById(R.id.et_descricao);
+
+                    String titulo =
+                            etTitulo.getText()
+                                    .toString()
+                                    .trim();
+
+                    String area =
+                            spinnerArea.getSelectedItem()
+                                    .toString();
+
+                    String local =
+                            etLocal.getText()
+                                    .toString()
+                                    .trim();
+
+                    String modalidade =
+                            etModalidade.getText()
+                                    .toString()
+                                    .trim();
+
+                    String carga =
+                            etCarga.getText()
+                                    .toString()
+                                    .trim();
+
+                    String descricao =
+                            etDescricao.getText()
+                                    .toString()
+                                    .trim();
+
+                    // VALIDAÇÕES
+
+                    if (titulo.isEmpty()) {
+
+                        etTitulo.setError("Obrigatório");
+
+                        etTitulo.requestFocus();
+
+                        return;
+                    }
+
+                    if (local.isEmpty()) {
+
+                        etLocal.setError("Obrigatório");
+
+                        etLocal.requestFocus();
+
+                        return;
+                    }
+
+                    if (modalidade.isEmpty()) {
+
+                        etModalidade.setError("Obrigatório");
+
+                        etModalidade.requestFocus();
+
+                        return;
+                    }
+
+                    if (carga.isEmpty()) {
+
+                        etCarga.setError("Obrigatório");
+
+                        etCarga.requestFocus();
+
+                        return;
+                    }
+
+                    if (descricao.isEmpty()) {
+
+                        etDescricao.setError("Obrigatório");
+
+                        etDescricao.requestFocus();
+
+                        return;
+                    }
+
+                    // BOTÃO
+
+                    findViewById(R.id.btn_publicar)
+                            .setEnabled(false);
+
+                    ((TextView) findViewById(R.id.btn_publicar))
+                            .setText("Publicando...");
+
+                    // USUÁRIO
+
+                    String uid =
+                            FirebaseHelper.getUidAtual();
+
+                    FirebaseHelper.refUsuarios()
+                            .child(uid)
+                            .get()
+                            .addOnSuccessListener(snapshot -> {
+
+                                String nomeEmpresa =
+                                        snapshot.child("razaoSocial")
+                                                .getValue(String.class);
+
+                                if (nomeEmpresa == null) {
+
+                                    nomeEmpresa =
+                                            snapshot.child("nome")
+                                                    .getValue(String.class);
+                                }
+
+                                // OBJETO
+
+                                Map<String, Object> vaga =
+                                        new HashMap<>();
+
+                                vaga.put("titulo", titulo);
+
+                                vaga.put("area", area);
+
+                                vaga.put("local", local);
+
+                                vaga.put("modalidade", modalidade);
+
+                                vaga.put("carga", carga);
+
+                                vaga.put("descricao", descricao);
+
+                                vaga.put("empresa", nomeEmpresa);
+
+                                vaga.put("empresaUid", uid);
+
+                                vaga.put("status", "ativa");
+
+                                vaga.put("candidatos", 0);
+
+                                vaga.put(
+                                        "timestamp",
+                                        System.currentTimeMillis()
+                                );
+
+                                // FIREBASE
+
+                                DatabaseReference novaVaga =
+                                        FirebaseHelper
+                                                .refVagas()
+                                                .push();
+
+                                novaVaga.setValue(vaga)
+
+                                        .addOnSuccessListener(unused -> {
+
+                                            Toast.makeText(
+                                                    this,
+                                                    "Vaga publicada com sucesso!",
+                                                    Toast.LENGTH_SHORT
+                                            ).show();
+
+                                            finish();
+                                        })
+
+                                        .addOnFailureListener(e -> {
+
+                                            findViewById(R.id.btn_publicar)
+                                                    .setEnabled(true);
+
+                                            ((TextView) findViewById(R.id.btn_publicar))
+                                                    .setText("Publicar vaga");
+
+                                            Toast.makeText(
+                                                    this,
+                                                    "Erro ao publicar: "
+                                                            + e.getMessage(),
+                                                    Toast.LENGTH_LONG
+                                            ).show();
+                                        });
+                            })
+
+                            .addOnFailureListener(e -> {
+
+                                findViewById(R.id.btn_publicar)
+                                        .setEnabled(true);
+
+                                ((TextView) findViewById(R.id.btn_publicar))
+                                        .setText("Publicar vaga");
+
+                                Toast.makeText(
+                                        this,
+                                        "Erro ao buscar dados da empresa.",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                            });
+                });
     }
 }

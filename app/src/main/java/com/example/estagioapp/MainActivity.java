@@ -21,15 +21,27 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tvNomeUsuario, tvLetraUsuario, tvProgresso, tvHoras;
-    private TextView tvStatVagas, tvStatCurriculos, tvStatAprovadas;
+    private TextView tvNomeUsuario;
+    private TextView tvLetraUsuario;
+    private TextView tvProgresso;
+    private TextView tvHoras;
+
+    private TextView tvStatVagas;
+    private TextView tvStatCurriculos;
+    private TextView tvStatAprovadas;
+
     private ProgressBar progressBar;
+
     private EditText etBusca;
+
     private RecyclerView rvVagasRecomendadas;
 
-    // Lista completa e lista filtrada para a busca
-    private final List<Vaga> todasVagas = new ArrayList<>();
-    private final List<Vaga> vagasFiltradas = new ArrayList<>();
+    private final List<Vaga> todasVagas =
+            new ArrayList<>();
+
+    private final List<Vaga> vagasFiltradas =
+            new ArrayList<>();
+
     private VagaRecomendadaAdapter adapter;
 
     @Override
@@ -37,190 +49,529 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (!FirebaseHelper.estaLogado()) {
-            startActivity(new Intent(this, LoginActivity.class));
+
+            startActivity(
+                    new Intent(
+                            this,
+                            LoginActivity.class
+                    )
+            );
+
             finish();
+
             return;
         }
 
         setContentView(R.layout.activity_main);
 
-        // Views existentes
-        tvNomeUsuario = findViewById(R.id.tv_nome_usuario);
-        tvLetraUsuario = findViewById(R.id.tv_letra_usuario);
-        tvProgresso = findViewById(R.id.tv_progresso_percent);
-        tvHoras = findViewById(R.id.tv_horas_progresso);
-        progressBar = findViewById(R.id.progress_bar);
+        iniciarViews();
 
-        // Views novas (stats)
-        tvStatVagas = findViewById(R.id.tv_stat_vagas);
-        tvStatCurriculos = findViewById(R.id.tv_stat_curriculos);
-        tvStatAprovadas = findViewById(R.id.tv_stat_aprovadas);
+        configurarRecycler();
 
-        // Busca
-        etBusca = findViewById(R.id.et_busca);
+        configurarNavegacao();
 
-        // RecyclerView vagas recomendadas
-        rvVagasRecomendadas = findViewById(R.id.rv_vagas_recomendadas);
+        configurarBusca();
+    }
+
+    private void iniciarViews() {
+
+        tvNomeUsuario =
+                findViewById(R.id.tv_nome_usuario);
+
+        tvLetraUsuario =
+                findViewById(R.id.tv_letra_usuario);
+
+        tvProgresso =
+                findViewById(R.id.tv_progresso_percent);
+
+        tvHoras =
+                findViewById(R.id.tv_horas_progresso);
+
+        progressBar =
+                findViewById(R.id.progress_bar);
+
+        tvStatVagas =
+                findViewById(R.id.tv_stat_vagas);
+
+        tvStatCurriculos =
+                findViewById(R.id.tv_stat_curriculos);
+
+        tvStatAprovadas =
+                findViewById(R.id.tv_stat_aprovadas);
+
+        etBusca =
+                findViewById(R.id.et_busca);
+
+        rvVagasRecomendadas =
+                findViewById(R.id.rv_vagas_recomendadas);
+    }
+
+    private void configurarRecycler() {
+
         rvVagasRecomendadas.setLayoutManager(
-                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter = new VagaRecomendadaAdapter(vagasFiltradas, this);
-        rvVagasRecomendadas.setAdapter(adapter);
+                new LinearLayoutManager(
+                        this,
+                        LinearLayoutManager.VERTICAL,
+                        false
+                )
+        );
 
-        // Navegação (igual ao original)
+        adapter =
+                new VagaRecomendadaAdapter(
+                        vagasFiltradas,
+                        this
+                );
+
+        rvVagasRecomendadas.setAdapter(
+                adapter
+        );
+    }
+
+    private void configurarNavegacao() {
+
         tvLetraUsuario.setOnClickListener(v ->
-                NavHelper.navigate(this, PerfilActivity.class));
-        findViewById(R.id.nav_inicio).setOnClickListener(v -> {});
-        findViewById(R.id.nav_vagas).setOnClickListener(v ->
-                NavHelper.navigate(this, VagasActivity.class));
-        findViewById(R.id.nav_atividades).setOnClickListener(v ->
-                NavHelper.navigate(this, AtividadesActivity.class));
-        findViewById(R.id.nav_perfil).setOnClickListener(v ->
-                NavHelper.navigate(this, PerfilActivity.class));
 
-        // Busca dinâmica enquanto digita
-        etBusca.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(Editable s) {}
+                NavHelper.navigate(
+                        this,
+                        PerfilActivity.class
+                )
+        );
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filtrarVagas(s.toString().trim());
-            }
-        });
+        findViewById(R.id.nav_inicio)
+                .setOnClickListener(v -> {
+                });
+
+        findViewById(R.id.nav_vagas)
+                .setOnClickListener(v ->
+
+                        NavHelper.navigate(
+                                this,
+                                VagasActivity.class
+                        )
+                );
+
+        findViewById(R.id.nav_atividades)
+                .setOnClickListener(v ->
+
+                        NavHelper.navigate(
+                                this,
+                                AtividadesActivity.class
+                        )
+                );
+
+        findViewById(R.id.nav_perfil)
+                .setOnClickListener(v ->
+
+                        NavHelper.navigate(
+                                this,
+                                PerfilActivity.class
+                        )
+                );
+    }
+
+    private void configurarBusca() {
+
+        etBusca.addTextChangedListener(
+                new TextWatcher() {
+
+                    @Override
+                    public void beforeTextChanged(
+                            CharSequence s,
+                            int start,
+                            int count,
+                            int after
+                    ) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(
+                            Editable s
+                    ) {
+                    }
+
+                    @Override
+                    public void onTextChanged(
+                            CharSequence s,
+                            int start,
+                            int before,
+                            int count
+                    ) {
+
+                        filtrarVagas(
+                                s.toString().trim()
+                        );
+                    }
+                });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         if (FirebaseHelper.estaLogado()) {
+
             carregarUsuario();
+
             carregarStats();
+
             carregarVagasRecomendadas();
+
+            carregarHorasAtividades();
         }
     }
 
-    // ─── MÉTODO ORIGINAL PRESERVADO ──────────────────────────────────────────
     private void carregarUsuario() {
-        String uid = FirebaseHelper.getUidAtual();
+
+        String uid =
+                FirebaseHelper.getUidAtual();
+
         if (uid == null) return;
 
-        FirebaseHelper.refUsuarios().child(uid)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        String nome = snapshot.child("nome").getValue(String.class);
-                        if (nome == null) nome = "Usuário";
+        FirebaseHelper.refUsuarios()
+                .child(uid)
+                .addListenerForSingleValueEvent(
+                        new ValueEventListener() {
 
-                        tvNomeUsuario.setText(nome);
-                        tvLetraUsuario.setText(
-                                String.valueOf(nome.charAt(0)).toUpperCase());
+                            @Override
+                            public void onDataChange(
+                                    DataSnapshot snapshot
+                            ) {
 
-                        AppData.setNome(MainActivity.this, nome);
+                                String nome =
+                                        snapshot.child("nome")
+                                                .getValue(String.class);
 
-                        String curso = snapshot.child("curso").getValue(String.class);
-                        if (curso != null) AppData.setCurso(MainActivity.this, curso);
+                                if (nome == null
+                                        || nome.isEmpty()) {
 
-                        String empresa = snapshot.child("empresa").getValue(String.class);
-                        if (empresa != null) AppData.setEmpresa(MainActivity.this, empresa);
+                                    nome = "Usuário";
+                                }
 
-                        String supervisor = snapshot.child("supervisorUid").getValue(String.class);
-                        if (supervisor != null)
-                            AppData.setSupervisor(MainActivity.this, supervisor);
+                                tvNomeUsuario.setText(
+                                        nome
+                                );
 
-                        Long horasConc = snapshot.child("horasConcluidas").getValue(Long.class);
-                        Long horasTotal = snapshot.child("horasTotal").getValue(Long.class);
+                                tvLetraUsuario.setText(
+                                        String.valueOf(
+                                                nome.charAt(0)
+                                        ).toUpperCase()
+                                );
 
-                        long hConc = horasConc != null ? horasConc : 0;
-                        long hTotal = horasTotal != null ? horasTotal : 600;
-                        int perc = hTotal > 0 ? (int) ((hConc * 100) / hTotal) : 0;
-
-                        if (tvProgresso != null) tvProgresso.setText(perc + "%");
-                        if (tvHoras != null)
-                            tvHoras.setText(hConc + "h de " + hTotal + "h concluídas");
-                        if (progressBar != null) progressBar.setProgress(perc);
-
-                        AppData.setHorasConcluidas(MainActivity.this, String.valueOf(hConc));
-                        AppData.setHorasTotal(MainActivity.this, String.valueOf(hTotal));
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {}
-                });
-    }
-
-    // ─── NOVO: Stats dinâmicos ────────────────────────────────────────────────
-    private void carregarStats() {
-        String uid = FirebaseHelper.getUidAtual();
-        if (uid == null) return;
-
-        // Contar total de vagas
-        FirebaseHelper.refVagas()
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        if (tvStatVagas != null)
-                            tvStatVagas.setText(String.valueOf(snapshot.getChildrenCount()));
-                    }
-                    @Override public void onCancelled(DatabaseError error) {}
-                });
-
-        // Contar currículos enviados pelo usuário atual
-        FirebaseHelper.refCandidaturas()
-                .orderByChild("candidatoUid").equalTo(uid)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        long total = snapshot.getChildrenCount();
-                        long aprovadas = 0;
-                        for (DataSnapshot c : snapshot.getChildren()) {
-                            String status = c.child("status").getValue(String.class);
-                            if ("aprovado".equalsIgnoreCase(status)) aprovadas++;
-                        }
-                        if (tvStatCurriculos != null)
-                            tvStatCurriculos.setText(String.valueOf(total));
-                        if (tvStatAprovadas != null)
-                            tvStatAprovadas.setText(String.valueOf(aprovadas));
-                    }
-                    @Override public void onCancelled(DatabaseError error) {}
-                });
-    }
-
-    // ─── NOVO: Vagas recomendadas reais ──────────────────────────────────────
-    private void carregarVagasRecomendadas() {
-        FirebaseHelper.refVagas()
-                .limitToLast(5) // pega as 5 mais recentes
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        todasVagas.clear();
-                        for (DataSnapshot vSnap : snapshot.getChildren()) {
-                            Vaga v = vSnap.getValue(Vaga.class);
-                            if (v != null) {
-                                v.setId(vSnap.getKey());
-                                todasVagas.add(v);
+                                AppData.setNome(
+                                        MainActivity.this,
+                                        nome
+                                );
                             }
-                        }
-                        // Mostra tudo inicialmente
-                        filtrarVagas(etBusca.getText().toString().trim());
+
+                            @Override
+                            public void onCancelled(
+                                    DatabaseError error
+                            ) {
+                            }
+                        });
+    }
+
+    private void carregarHorasAtividades() {
+
+        String uidAtual =
+                FirebaseHelper.getUidAtual();
+
+        if (uidAtual == null) return;
+
+        FirebaseHelper.refUsuarios()
+                .child(uidAtual)
+                .get()
+                .addOnSuccessListener(userSnapshot -> {
+
+                    final int horasExtras;
+
+                    Long extras =
+                            userSnapshot
+                                    .child("horasExtras")
+                                    .getValue(Long.class);
+
+                    if (extras != null) {
+
+                        horasExtras =
+                                extras.intValue();
+
+                    } else {
+
+                        horasExtras = 0;
                     }
-                    @Override public void onCancelled(DatabaseError error) {}
+
+                    final int cargaHoraria;
+
+                    Long cargaFirebase =
+                            userSnapshot
+                                    .child("horasTotal")
+                                    .getValue(Long.class);
+
+                    if (cargaFirebase != null) {
+
+                        cargaHoraria =
+                                cargaFirebase.intValue();
+
+                    } else {
+
+                        cargaHoraria = 600;
+                    }
+
+                    FirebaseHelper.refAtividades()
+                            .get()
+                            .addOnSuccessListener(snapshot -> {
+
+                                int horasAtividades = 0;
+
+                                for (DataSnapshot ds :
+                                        snapshot.getChildren()) {
+
+                                    Atividade atividade =
+                                            ds.getValue(
+                                                    Atividade.class
+                                            );
+
+                                    if (atividade == null)
+                                        continue;
+
+                                    if (!uidAtual.equals(
+                                            atividade.getAlunoUid()
+                                    )) {
+                                        continue;
+                                    }
+
+                                    if (atividade.isConcluida()) {
+
+                                        horasAtividades +=
+                                                atividade.getHoras();
+                                    }
+                                }
+
+                                int horasTotais =
+                                        horasExtras
+                                                + horasAtividades;
+
+                                if (horasTotais > cargaHoraria) {
+
+                                    horasTotais =
+                                            cargaHoraria;
+                                }
+
+                                int progresso = 0;
+
+                                if (cargaHoraria > 0) {
+
+                                    progresso =
+                                            (horasTotais * 100)
+                                                    / cargaHoraria;
+                                }
+
+                                tvProgresso.setText(
+                                        progresso + "%"
+                                );
+
+                                tvHoras.setText(
+                                        horasTotais
+                                                + "h de "
+                                                + cargaHoraria
+                                                + "h concluídas"
+                                );
+
+                                progressBar.setProgress(
+                                        progresso
+                                );
+
+                                AppData.setHorasConcluidas(
+                                        MainActivity.this,
+                                        String.valueOf(
+                                                horasTotais
+                                        )
+                                );
+
+                                AppData.setHorasTotal(
+                                        MainActivity.this,
+                                        String.valueOf(
+                                                cargaHoraria
+                                        )
+                                );
+                            });
                 });
     }
 
-    // ─── NOVO: Filtro de busca ────────────────────────────────────────────────
+    private void carregarStats() {
+
+        String uid =
+                FirebaseHelper.getUidAtual();
+
+        if (uid == null) return;
+
+        FirebaseHelper.refVagas()
+                .addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(
+                                    DataSnapshot snapshot
+                            ) {
+
+                                if (tvStatVagas != null) {
+
+                                    tvStatVagas.setText(
+                                            String.valueOf(
+                                                    snapshot.getChildrenCount()
+                                            )
+                                    );
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(
+                                    DatabaseError error
+                            ) {
+                            }
+                        });
+
+        FirebaseHelper.refCandidaturas()
+                .orderByChild("candidatoUid")
+                .equalTo(uid)
+                .addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(
+                                    DataSnapshot snapshot
+                            ) {
+
+                                long total =
+                                        snapshot.getChildrenCount();
+
+                                long aprovadas = 0;
+
+                                for (DataSnapshot c :
+                                        snapshot.getChildren()) {
+
+                                    String status =
+                                            c.child("status")
+                                                    .getValue(String.class);
+
+                                    if ("aprovado"
+                                            .equalsIgnoreCase(status)) {
+
+                                        aprovadas++;
+                                    }
+                                }
+
+                                tvStatCurriculos.setText(
+                                        String.valueOf(total)
+                                );
+
+                                tvStatAprovadas.setText(
+                                        String.valueOf(aprovadas)
+                                );
+                            }
+
+                            @Override
+                            public void onCancelled(
+                                    DatabaseError error
+                            ) {
+                            }
+                        });
+    }
+
+    private void carregarVagasRecomendadas() {
+
+        FirebaseHelper.refVagas()
+                .limitToLast(5)
+                .addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(
+                                    DataSnapshot snapshot
+                            ) {
+
+                                todasVagas.clear();
+
+                                for (DataSnapshot vSnap :
+                                        snapshot.getChildren()) {
+
+                                    Vaga vaga =
+                                            vSnap.getValue(
+                                                    Vaga.class
+                                            );
+
+                                    if (vaga != null) {
+
+                                        vaga.setId(
+                                                vSnap.getKey()
+                                        );
+
+                                        todasVagas.add(vaga);
+                                    }
+                                }
+
+                                filtrarVagas(
+                                        etBusca.getText()
+                                                .toString()
+                                                .trim()
+                                );
+                            }
+
+                            @Override
+                            public void onCancelled(
+                                    DatabaseError error
+                            ) {
+                            }
+                        });
+    }
+
     private void filtrarVagas(String query) {
+
         vagasFiltradas.clear();
+
         if (query.isEmpty()) {
-            vagasFiltradas.addAll(todasVagas);
+
+            vagasFiltradas.addAll(
+                    todasVagas
+            );
+
         } else {
-            String lower = query.toLowerCase();
-            for (Vaga v : todasVagas) {
-                boolean titulo  = v.getTitulo()  != null && v.getTitulo().toLowerCase().contains(lower);
-                boolean empresa = v.getEmpresa() != null && v.getEmpresa().toLowerCase().contains(lower);
-                boolean local   = v.getLocal()   != null && v.getLocal().toLowerCase().contains(lower);
-                if (titulo || empresa || local) vagasFiltradas.add(v);
+
+            String lower =
+                    query.toLowerCase();
+
+            for (Vaga vaga : todasVagas) {
+
+                boolean titulo =
+                        vaga.getTitulo() != null
+                                && vaga.getTitulo()
+                                .toLowerCase()
+                                .contains(lower);
+
+                boolean empresa =
+                        vaga.getEmpresa() != null
+                                && vaga.getEmpresa()
+                                .toLowerCase()
+                                .contains(lower);
+
+                boolean local =
+                        vaga.getLocal() != null
+                                && vaga.getLocal()
+                                .toLowerCase()
+                                .contains(lower);
+
+                if (titulo
+                        || empresa
+                        || local) {
+
+                    vagasFiltradas.add(vaga);
+                }
             }
         }
-        if (adapter != null) adapter.notifyDataSetChanged();
+
+        if (adapter != null) {
+
+            adapter.notifyDataSetChanged();
+        }
     }
 }

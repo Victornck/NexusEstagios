@@ -161,20 +161,47 @@ public class PerfilActivity extends AppCompatActivity {
                     .get()
                     .addOnSuccessListener(snapshot -> {
 
-                        String supervisorNome =
-                                snapshot.child("supervisorNome")
+                        String supervisorUid =
+                                snapshot.child("supervisorUid")
                                         .getValue(String.class);
 
-                        if (supervisorNome == null
-                                || supervisorNome.isEmpty()) {
+                        if (supervisorUid == null
+                                || supervisorUid.isEmpty()) {
 
-                            supervisorNome =
-                                    "Não vinculado";
+                            tvSupervisor.setText(
+                                    "Não vinculado"
+                            );
+
+                            return;
                         }
 
-                        tvSupervisor.setText(
-                                supervisorNome
-                        );
+                        FirebaseHelper.refUsuarios()
+                                .child(supervisorUid)
+                                .get()
+                                .addOnSuccessListener(supervisorSnapshot -> {
+
+                                    String nomeSupervisor =
+                                            supervisorSnapshot.child("nome")
+                                                    .getValue(String.class);
+
+                                    if (nomeSupervisor == null
+                                            || nomeSupervisor.isEmpty()) {
+
+                                        nomeSupervisor =
+                                                "Supervisor";
+                                    }
+
+                                    // SALVA LOCALMENTE
+
+                                    AppData.setSupervisor(
+                                            PerfilActivity.this,
+                                            nomeSupervisor
+                                    );
+
+                                    tvSupervisor.setText(
+                                            nomeSupervisor
+                                    );
+                                });
                     });
         }
 

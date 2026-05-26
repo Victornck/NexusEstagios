@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.widget.ImageView;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -124,6 +127,44 @@ public class LoginActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_cadastrar).setOnClickListener(v ->
                 startActivity(new Intent(this, CadastroActivity.class)));
+
+        EditText etSenha =
+                findViewById(R.id.et_senha);
+
+        ImageView btnToggleSenha =
+                findViewById(R.id.btn_toggle_senha);
+
+        final boolean[] senhaVisivel = {false};
+
+        btnToggleSenha.setOnClickListener(v -> {
+
+            senhaVisivel[0] = !senhaVisivel[0];
+
+            if (senhaVisivel[0]) {
+
+                etSenha.setTransformationMethod(
+                        HideReturnsTransformationMethod.getInstance()
+                );
+
+                btnToggleSenha.setImageResource(
+                        R.drawable.ic_eye_open
+                );
+
+            } else {
+
+                etSenha.setTransformationMethod(
+                        PasswordTransformationMethod.getInstance()
+                );
+
+                btnToggleSenha.setImageResource(
+                        R.drawable.ic_eye_closed
+                );
+            }
+
+            etSenha.setSelection(
+                    etSenha.getText().length()
+            );
+        });
     }
 
     private void redirecionarPorPerfil() {

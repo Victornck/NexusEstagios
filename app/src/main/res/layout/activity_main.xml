@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -280,32 +281,35 @@
     <!-- BOTTOM NAV -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="78dp"
+        android:layout_height="72dp"
         android:background="#FFFFFF"
         android:elevation="8dp"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingHorizontal="8dp">
+        android:orientation="horizontal">
 
-        <!-- INÍCIO -->
+        <!-- INÍCIO ATIVO -->
         <LinearLayout
             android:id="@+id/nav_inicio"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
+
             <LinearLayout
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:background="@drawable/bg_bottom_selected"
+                android:layout_width="40dp"
+                android:layout_height="34dp"
+                android:background="@drawable/bg_nav_active"
                 android:gravity="center">
+
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:src="@drawable/ic_home"
-                    android:tint="#FFFFFF" />
+                    app:tint="#FFFFFF" />
+
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -314,21 +318,24 @@
                 android:textColor="#FF6B00"
                 android:textSize="11sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <!-- VAGAS -->
         <LinearLayout
             android:id="@+id/nav_vagas"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_briefcase"
-                android:tint="#9E9E9E" />
+                app:tint="#9E9E9E" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -336,21 +343,24 @@
                 android:text="Vagas"
                 android:textColor="#9E9E9E"
                 android:textSize="11sp" />
+
         </LinearLayout>
 
         <!-- ATIVIDADES -->
         <LinearLayout
             android:id="@+id/nav_atividades"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_check_nav"
-                android:tint="#9E9E9E" />
+                app:tint="#9E9E9E" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -358,21 +368,24 @@
                 android:text="Atividades"
                 android:textColor="#9E9E9E"
                 android:textSize="11sp" />
+
         </LinearLayout>
 
         <!-- PERFIL -->
         <LinearLayout
             android:id="@+id/nav_perfil"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
+
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_person"
-                android:tint="#9E9E9E" />
+                app:tint="#9E9E9E" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -380,6 +393,7 @@
                 android:text="Perfil"
                 android:textColor="#9E9E9E"
                 android:textSize="11sp" />
+
         </LinearLayout>
 
     </LinearLayout>
